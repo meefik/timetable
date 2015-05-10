@@ -2,3 +2,5 @@
 bower_components
 # Database
 schedule.sqlite3
+# Data
+courses/static/data

@@ -43,8 +43,10 @@ function show(cdata) {
     var courses = new Array();
     for(var i = 0; i < cdata.length; i++) {
         var courseRaw = cdata[i];
+        courseRaw.ShortName = courseRaw.ShortName.replace("\ ", "&nbsp;") + "&nbsp;";
+        courseRaw.EnrollmentStart = Date.parseExact(courseRaw.EnrollmentStart, "dd.MM.yyyy");
+        courseRaw.CourseStart = Date.parseExact(courseRaw.CourseStart, "dd.MM.yyyy");
         if(!ifCourseInAction(courseRaw, from, to)) {
-            var cName = courseRaw.ShortName.replace("\ ", "&nbsp;") + "&nbsp;";
             var weeks = [];
             for(var j = 0; j < head.length; j++) {
                 weeks.push(getCourseEvent(courseRaw, Date.parseExact(head[j].monday, "dd.MM.yyyy")));
@@ -52,7 +54,7 @@ function show(cdata) {
             var course = {
                 "ID": courseRaw.ID,
                 "Name": courseRaw.Name,
-                "ShortName": cName,
+                "ShortName": courseRaw.ShortName,
                 "State": courseRaw.State,
                 "Weeks": weeks
             };
@@ -69,7 +71,7 @@ function show(cdata) {
 function showModalBody(courseId) {
     var checkItems = JSON.parse($.ajax({
         async: false,
-        url: "courseCheckItems",
+        url: "static/data/check.json",
         data: {
             "courseId": courseId
         },
@@ -86,13 +88,13 @@ function updateCheckitem(type, checkitemID, state) {
     var urla = "";
     var dataa = {};
     if(type === "update") {
-        urla = "updateCheckItem";
+        urla = "static/data/update.json";
         dataa = {
             "id": checkitemID,
             "state": state
         }
     } else if(type === "duplicate") {
-        urla = "duplicateLastHistory";
+        urla = "static/data/duplicate.json";
         dataa = {
             "id": checkitemID
         };
@@ -139,7 +141,7 @@ function showCheckItemHistory(eButton, checkItemId) {
     }
     var result = JSON.parse($.ajax({
         async: false,
-        url: "checkItemHistory",
+        url: "static/data/history.json",
         data: {
             "id": checkItemId
         },
@@ -184,7 +186,7 @@ function saveHistoryComment(eButton, historyID) {
     var comment = $(eButton).parent().children("textarea").val();
     var result = JSON.parse($.ajax({
         async: false,
-        url: "updateCheckItemHistory",
+        url: "static/data/updateHistory.json",
         data: {
             "id": historyID,
             "comment": comment
@@ -241,16 +243,16 @@ function getHead(from, to) {
 }
 
 function ifCourseInAction(course, from, to) {
-    var firstDate = Date.parseExact(course.EnrollmentStart, "dd.MM.yyyy");
-    var secondDate = Date.parseExact(course.CourseStart, "dd.MM.yyyy");
+    var firstDate = course.EnrollmentStart.clone();
+    var secondDate = course.CourseStart.clone();
     secondDate.addWeeks(course.Weeks + 2);
     return check(from, to, firstDate, secondDate);
 }
 
 function getCourseEvent(course, dateOfMonday) {
     var oneWeek = {};
-    var enrollmentStart = Date.parseExact(course.EnrollmentStart, "dd.MM.yyyy");
-    var courseStart = Date.parseExact(course.CourseStart, "dd.MM.yyyy");
+    var enrollmentStart = course.EnrollmentStart;
+    var courseStart = course.CourseStart;
     //Идут недели
     var startPlusNWeeks = courseStart.clone();
     startPlusNWeeks.addWeeks(course.Weeks);
@@ -307,7 +309,7 @@ function check(staticBegin, staticEnd, dynamicBegin, dynamicEnd) {
 }
 
 function getCoursesData() {
-    $.getJSON('static/data.json').done(function(data) {
+    $.getJSON('static/data/list.json').done(function(data) {
         show(data);
     });
 }
