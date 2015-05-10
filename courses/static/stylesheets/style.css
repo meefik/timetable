@@ -1,0 +1,150 @@
+/*table {*/
+
+/*border-spacing: 0px;*/
+
+/*}*/
+ table#courses-table>tbody>tr>td {
+    padding: 0 !important;
+    vertical-align: top;
+    border-top: 1px solid #000000 !important;
+    width: 83px !important;
+    text-align: center;
+}
+span.label {
+    width: 100% !important;
+}
+table#courses-table>thead>tr>th {
+    text-align: center;
+    margin: 1px !important;
+    padding: 1px !important;
+    width: 83px !important;
+    height: 40px;
+}
+.header-th {
+    vertical-align: middle !important;
+}
+table#courses-table {
+    overflow-x: scroll;
+}
+table#courses-table>thead>tr>th:nth-child(odd) {
+    vertical-align: top;
+}
+.header-id {
+    width: 65px !important;
+    text-align: center;
+    padding-left: 2px !important;
+}
+.header-name {
+    text-align: center;
+    padding: 0 10px !important;
+}
+.header-id > span, .header-name > span:nth-child(1) {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+.header-name > span:nth-child(2) {
+    padding-right: 3px;
+}
+.row {
+    margin-left: 0px !important;
+}
+.row {
+    margin-right: 0px !important;
+}
+span.glyphicon {
+    font-size: 12px !important;
+}
+.week-button {
+    cursor: pointer;
+}
+.week-warning {
+    color: #ff0000;
+}
+#data {
+    width: 100%;
+}
+#datesForm {
+    /*width: 200px;*/
+    padding: 1em 1em;
+}
+.element {
+    text-align: center;
+}
+td.current > .element:only-child {
+    width: 80%;
+    margin: 0 auto;
+}
+td.current > .element:not(:only-child) {
+    width: 40%;
+}
+td.current > .element:not(:only-child):first-child {
+    margin-left: 10%;
+}
+/*.element: {*/
+
+/*}*/
+
+/*td.current > div + .element:not(:only-child){*/
+
+/*width: 40% !important;*/
+
+/*}*/
+
+/*td.current > div + .element:only-child {*/
+
+/*width: 80% !important;*/
+
+/*}*/
+ .element:not(:only-child) {
+    width: 50%;
+    float: left;
+}
+.week {
+    background-color: #337ab7;
+    color: #fff;
+}
+.enrollment {
+    background-color: #5bc0de;
+}
+.prolongation {
+    background-color: #5cb85c;
+}
+.open {
+    background-color: #d9534f;
+}
+.certificate {
+    background-color: #f0ad4e;
+}
+.current {
+    background-color: #aaa;
+}
+#tb-history {
+    display: block;
+    height: 200px;
+    overflow: auto;
+    width: 100%;
+}
+table#history, table#history > thead > tr {
+    display: block;
+}
+table#history > thead > tr > th:nth-child(1), table#history > tbody > tr > td:nth-child(1) {
+    width: 100px;
+}
+table#history > thead > tr > th:nth-child(2), table#history > tbody > tr > td:nth-child(2) {
+    width: 130px;
+}
+table#history > thead > tr > th:nth-child(3), table#history > tbody > tr > td:nth-child(3) {
+    width: 130px;
+}
+table#history > thead > tr > th:nth-child(4), table#history > tbody > tr > td:nth-child(4), .history-comment-edit > textarea {
+    width: 145px;
+}
+table#history > thead > tr > th:nth-child(5), table#history > tbody > tr > td:nth-child(5) {
+    width: 40px;
+}
+.history-comment-edit {
+    display: none;
+}
+.history-comment-edit > textarea {
+    height: 100px;
+}
