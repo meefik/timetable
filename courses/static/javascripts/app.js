@@ -309,25 +309,22 @@ function check(staticBegin, staticEnd, dynamicBegin, dynamicEnd) {
 }
 
 function getCoursesData() {
-    $.getJSON('static/data/list.json').done(function(data) {
+    var url = 'static/data/list.json';
+    //var url = 'api/list';
+    $.getJSON(url).done(function(data) {
         show(data);
     });
 }
 // start
 $(document).ready(function() {
     setDefaultDatas();
-    /*
-    $("#from").datepicker({
-        "dateFormat": "dd.mm.yy",
-        "changeMonth": true,
-        "changeYear": true
+    $('.input-daterange').datepicker({
+        format: "dd.mm.yyyy",
+        todayBtn: true,
+        language: "ru",
+        autoclose: true,
+        todayHighlight: true
     });
-    $("#to").datepicker({
-        "dateFormat": "dd.mm.yy",
-        "changeMonth": true,
-        "changeYear": true
-    });
-    */
     _.templateSettings = {
         evaluate: /\{\{(.+?)\}\}/g,
         interpolate: /\{\{=(.+?)\}\}/g,

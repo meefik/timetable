@@ -17,16 +17,17 @@ class CourseAdmin(admin.ModelAdmin):
 
 admin.site.register(Course, CourseAdmin)
 
-class CheckitemstateAdmin(admin.ModelAdmin):
-    list_display = ('checkitem', 'state', 'user', 'comment', 'datetime')
-    list_filter = ['datetime']
-    search_fields = ['checkitem', 'user']
-    date_hierarchy = 'datetime'
-
-admin.site.register(Checkitemstate, CheckitemstateAdmin)
-
 class Course_checkitemAdmin(admin.ModelAdmin):
     list_display = ('checkitem', 'course')
     search_fields = ['checkitem', 'course']
 
 admin.site.register(Course_checkitem, Course_checkitemAdmin)
+
+class CheckitemstateAdmin(admin.ModelAdmin):
+    list_display = ('checkitem','state', 'user', 'comment', 'datetime')
+    list_filter = ['datetime']
+    search_fields = ['checkitem', 'user']
+    date_hierarchy = 'datetime'
+    
+
+admin.site.register(Checkitemstate, CheckitemstateAdmin)

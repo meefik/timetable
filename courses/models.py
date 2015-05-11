@@ -4,10 +4,10 @@ from django.db import models
 class Course(models.Model):
     id = models.CharField(primary_key=True, max_length=20)
     name = models.CharField(max_length=255)
-    weeks = models.IntegerField()
     shortName = models.CharField(max_length=50)
     enrollmentStart = models.DateField()
     courseStart = models.DateField()
+    weeks = models.IntegerField()
     def __unicode__(self):
         return self.id
 

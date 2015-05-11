@@ -4,9 +4,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="static/stylesheets/style.css">
     <script src="static/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="static/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="static/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.ru.min.js"></script>
     <script src="static/bower_components/underscore/underscore-min.js"></script>
     <script src="static/bower_components/datejs/build/production/date-ru-RU.min.js"></script>
     <script src="static/javascripts/app.js"></script>
@@ -18,6 +21,7 @@
         <div class="col-md-12">
 
             <form id="datesForm" class="form-inline">
+                <!--
                 <div class="form-group">
                     <label for="from">Начальная дата</label>
                     <input onchange="processInputChange(this, 'from')" type="text" class="form-control" id="from" placeholder="1">
@@ -26,8 +30,17 @@
                     <label for="to">Конечная дата</label>
                     <input onchange="processInputChange(this, 'to')" type="text" class="form-control" id="to" placeholder="1">
                 </div>
+                -->
+                <div class="input-daterange input-group" id="datepicker">
+                    <span class="input-group-addon">Дата от</span>
+                    <input onchange="processInputChange(this, 'from')" type="text" class="input-sm form-control" name="start" id="from" placeholder="dd.mm.yyyy">
+                    <span class="input-group-addon"> до </span>
+                    <input onchange="processInputChange(this, 'to')" type="text" class="input-sm form-control" name="end" id="to" placeholder="dd.mm.yyyy">
+                </div>
                 <button onclick="getCoursesData();return false;" class="btn btn-default">Показать</button>
             </form>
+            
+            
 
             <div id="data"></div>
 
