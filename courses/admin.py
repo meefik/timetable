@@ -1,33 +1,36 @@
-from courses.models import Course, User, Checkitem, Checkitemstate, Course_checkitem
+from courses.models import Course, User, Task, TaskHistory
 from django.contrib import admin
 
 admin.site.register(User)
-admin.site.register(Checkitem)
 
-class Course_checkitemInline(admin.StackedInline):
-    model = Course_checkitem
+class TaskHistoryInline(admin.StackedInline):
+    model = TaskHistory
+    extra = 1
+
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ('id','taskName', 'courseId', 'weekNumber')
+    search_fields = ['taskName', 'courseId']
+    inlines = [TaskHistoryInline]
+    
+admin.site.register(Task, TaskAdmin)
+
+class TaskInline(admin.StackedInline):
+    model = Task
     extra = 1
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'shortName', 'enrollmentStart', 'courseStart', 'weeks')
+    list_display = ('id', 'shortName', 'enrollmentStart', 'courseStart', 'durationWeeks')
     list_filter = ['courseStart']
     search_fields = ['id', 'shortName']
     date_hierarchy = 'courseStart'
-    inlines = [Course_checkitemInline]
+    inlines = [TaskInline]
 
 admin.site.register(Course, CourseAdmin)
 
-class Course_checkitemAdmin(admin.ModelAdmin):
-    list_display = ('checkitem', 'course')
-    search_fields = ['checkitem', 'course']
-
-admin.site.register(Course_checkitem, Course_checkitemAdmin)
-
-class CheckitemstateAdmin(admin.ModelAdmin):
-    list_display = ('checkitem','state', 'user', 'comment', 'datetime')
-    list_filter = ['datetime']
-    search_fields = ['checkitem', 'user']
-    date_hierarchy = 'datetime'
+class TaskHistoryAdmin(admin.ModelAdmin):
+    list_display = ('id','taskId', 'userId', 'state', 'comment', 'timeStamp')
+    list_filter = ['timeStamp']
+    search_fields = ['taskId', 'userId']
+    date_hierarchy = 'timeStamp'
     
-
-admin.site.register(Checkitemstate, CheckitemstateAdmin)
+admin.site.register(TaskHistory, TaskHistoryAdmin)

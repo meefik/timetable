@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="static/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="static/stylesheets/style.css">
     <script src="static/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="static/bower_components/jquery-color/jquery.color.js"></script>
     <script src="static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="static/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="static/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.ru.min.js"></script>
@@ -21,26 +22,14 @@
         <div class="col-md-12">
 
             <form id="datesForm" class="form-inline">
-                <!--
-                <div class="form-group">
-                    <label for="from">Начальная дата</label>
-                    <input onchange="processInputChange(this, 'from')" type="text" class="form-control" id="from" placeholder="1">
-                </div>
-                <div class="form-group">
-                    <label for="to">Конечная дата</label>
-                    <input onchange="processInputChange(this, 'to')" type="text" class="form-control" id="to" placeholder="1">
-                </div>
-                -->
                 <div class="input-daterange input-group" id="datepicker">
                     <span class="input-group-addon">Дата от</span>
-                    <input onchange="processInputChange(this, 'from')" type="text" class="input-sm form-control" name="start" id="from" placeholder="dd.mm.yyyy">
+                    <input type="text" class="input-sm form-control" name="start" id="from" placeholder="dd.mm.yyyy">
                     <span class="input-group-addon"> до </span>
-                    <input onchange="processInputChange(this, 'to')" type="text" class="input-sm form-control" name="end" id="to" placeholder="dd.mm.yyyy">
+                    <input type="text" class="input-sm form-control" name="end" id="to" placeholder="dd.mm.yyyy">
                 </div>
                 <button onclick="getCoursesData();return false;" class="btn btn-default">Показать</button>
             </form>
-            
-            
 
             <div id="data"></div>
 
@@ -85,7 +74,7 @@
                     <th>Название</th>
                     {{ _.each(headers, function(oneDate) { }}
                     <th class="header-week {{ if (oneDate.current){ }} current {{ } }}"
-                        title="{{=oneDate.year}} {{ if (oneDate.current){ }} , текущая неделя {{ } }}">{{=oneDate.date}}
+                        title="{{- oneDate.year }} {{ if (oneDate.current){ }} , текущая неделя {{ } }}">{{- oneDate.date }}
                     </th>
                     {{ }); }}
                 </tr>
@@ -93,11 +82,8 @@
                 <tbody>
                 {{ _.each(courses, function(course) { }}
                 <tr>
-                    <td class="header-id"><span>{{=course.ID}}</span></td>
-                    <td class="header-name" title="{{=course.Name}}"><span>{{=course.ShortName}}</span>{{if (!document.offline){ }}<span
-                            class="glyphicon week-button {{if (course.State){ }} glyphicon-ok-circle {{ } else { }} glyphicon-warning-sign week-warning {{ } }}"
-                          onclick="showModalCourse('{{=course.ID}}')"
-                            title="{{if (!course.State){ }} Не выполнены условия {{ } }}"></span>{{ } }}</td>
+                    <td class="header-id {{ if(course.State) { }}course-state-true{{ } else { }}course-state-false {{ } }}" onclick="showModalCourse('{{- course.ID }}')"><span>{{- course.ID }}</span></td>
+                    <td class="header-name" title="{{- course.Name }}"><span>{{- course.ShortName }}</span>
                     {{ _.each(course.Weeks, function(week){ }}
                     <td {{if (week.current){ }} class="current" {{ } }}>
                         {{ if (week.enrollment) { }}
@@ -105,7 +91,7 @@
                         {{ } }}
 
                         {{ if (week.weekNumber) { }}
-                        <div class="element week" title="Неделя {{=week.weekNumber}}">{{=week.weekNumber}}</div>
+                        <div class="element week" title="Неделя {{- week.weekNumber }}">{{- week.weekNumber }}</div>
                         {{ } }}
 
                         {{ if (week.prolongation) { }}
@@ -128,33 +114,32 @@
         </script>
 
         <script type="text/template" id="checkitem-main">
-            <input type="hidden" id="currentCourse" value="{{= courseId}}">
+            <input type="hidden" id="currentCourse" value="{{- courseId}}">
             <table class="table">
                 <thead>
                 <tr>
-                    <th>&nbsp;</th>
-                    <th>Параметр</th>
+                    <th>Задача</th>
                     <th>Состояние</th>
-                    <th>&nbsp;</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 {{ _.each(checkitems, function(item) { }}
                 <tr>
-                    <td>
-                        <button class="btn btn-default btn-xs" onclick="showCheckItemHistory(this, {{= item.ID}})"><span
-                                title="История изменений" class="glyphicon glyphicon-comment"></span></button>
+                    <td><a href="javascript:void(0);" onclick="showCheckItemHistory(this, {{- item.pk}})">{{= item.fields.taskName}}</a></td>
+                    <td width="150"><input class="state-checkbox" type="checkbox" onchange="doTaskUpdate(this, {{- item.pk}})"
+                        {{ if (item.fields.taskState){ }} checked="checked" > <span class="state-text">выполнено</span> {{ } else { }} 
+                         > <span class="state-text">не выполнено</span>
+                        {{ } }}
                     </td>
-                    <td>{{= item.Name}}</td>
-                    <td><input type="checkbox" onchange="processCheckitemChange(this, {{= item.ID}})"
-                        {{ if (item.CurrentState ){ }} checked="checked" {{ } }}
-                        >
+                    <td width="150">
+                        <button class="btn btn-default btn-xs comment-btn" style="width:125px" onclick="doTaskUpdate(this,{{- item.pk}})">
+                            <span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Комментарий
+                        </button>
                     </td>
-                    <td>
-                        <button class="btn btn-default btn-xs" onclick="processCheckitemDuplicate({{= item.ID}})"
-                                title="Продублировать текущее состояние для добавления комментария"><span
-                                class="glyphicon glyphicon-repeat"></span></button>
-                    </td>
+                </tr>
+                <tr class="comment-block">
+                    <td colspan="3"><textarea class="form-control" rows="3"></textarea></td>
                 </tr>
                 {{ }); }}
                 </tbody>
@@ -162,47 +147,34 @@
         </script>
 
         <script type="text/template" id="checkitem-history-table">
-            <input type="hidden" id="currentCheckItem" value="{{= checkItemId}}">
-            <table id='history' class='table' style=''>
+            <input type="hidden" id="currentCheckItem" value="{{- checkItemId}}">
+            <table class="table">
                 <thead>
-                <tr style='display: block'>
+                <tr>
                     <th>Состояние</th>
                     <th>Пользователь</th>
                     <th>Дата</th>
                     <th>Комментарий</th>
-                    <th>&nbsp;</th>
                 </tr>
                 </thead>
-                <tbody id='tb-history'>
-
+                <tbody>
                 {{ _.each(checkitemHistorys, function(item) { }}
                 <tr>
-                    <td><input type="checkbox" disabled="disabled" {{ if (item.State){ }} checked="checked" {{ } }}">
-                    </td>
-                    <td>{{= item.User.Name}}</td>
-                    <td>{{= item.Date}}</td>
                     <td>
-                        <span class="history-comment-txt">{{= item.Comment}}</span>
-                        <span class="history-comment-edit">
-                            <textarea>{{- item.Comment}}</textarea><br/>
-                            <button onclick="saveHistoryComment(this, {{= item.ID}});"
-                                    title="Сохранить комментарий"
-                                    class="btn btn-default btn-xs"><span class="glyphicon glyphicon-ok"></span></button>
-                        </span>
+                    {{ if(item.fields.state) { }} 
+                        <span class="glyphicon glyphicon-ok">&nbsp;</span>выполнено
+                    {{ } else { }}
+                        <span class="glyphicon glyphicon-remove">&nbsp;</span>не выполнено
+                    {{ } }}
                     </td>
-                    <td>
-                        <button onclick="toggleHistoryComment(this)"
-                                class="btn btn-default btn-xs"
-                                title="Редактировать / Закрыть"><span class="glyphicon glyphicon-pencil"></span>
-                        </button>
-                    </td>
+                    <td>{{- item.fields.userId }}</td>
+                    <td>{{- new Date(item.fields.timeStamp).toString('dd.MM.yyyy HH:mm') }}</td>
+                    <td>{{- item.fields.comment }}</td>
                 </tr>
                 {{ }); }}
                 </tbody>
             </table>
-
         </script>
-
 
 </body>
 

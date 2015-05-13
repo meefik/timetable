@@ -1,27 +1,25 @@
-/*table {*/
-
-/*border-spacing: 0px;*/
-
-/*}*/
+/*table {
+border-spacing: 0px;
+}*/
  table#courses-table>tbody>tr>td {
-    padding: 0 !important;
+    padding: 0;
     vertical-align: top;
-    border-top: 1px solid #000000 !important;
-    width: 83px !important;
+    border-top: 1px solid #000000;
+    width: 83px;
     text-align: center;
 }
 span.label {
-    width: 100% !important;
+    width: 100%;
 }
 table#courses-table>thead>tr>th {
     text-align: center;
-    margin: 1px !important;
-    padding: 1px !important;
-    width: 83px !important;
+    margin: 1px;
+    padding: 1px;
+    width: 83px;
     height: 40px;
 }
 .header-th {
-    vertical-align: middle !important;
+    vertical-align: middle;
 }
 table#courses-table {
     overflow-x: scroll;
@@ -30,13 +28,13 @@ table#courses-table>thead>tr>th:nth-child(odd) {
     vertical-align: top;
 }
 .header-id {
-    width: 65px !important;
+    width: 65px;
     text-align: center;
-    padding-left: 2px !important;
+    padding-left: 2px;
 }
 .header-name {
     text-align: center;
-    padding: 0 10px !important;
+    padding: 0 10px;
 }
 .header-id > span, .header-name > span:nth-child(1) {
     padding-left: 3px;
@@ -46,13 +44,13 @@ table#courses-table>thead>tr>th:nth-child(odd) {
     padding-right: 3px;
 }
 .row {
-    margin-left: 0px !important;
+    margin-left: 0px;
 }
 .row {
-    margin-right: 0px !important;
+    margin-right: 0px;
 }
 span.glyphicon {
-    font-size: 12px !important;
+    font-size: 12px;
 }
 .week-button {
     cursor: pointer;
@@ -80,19 +78,16 @@ td.current > .element:not(:only-child) {
 td.current > .element:not(:only-child):first-child {
     margin-left: 10%;
 }
-/*.element: {*/
+/*.element: {
+}*/
 
-/*}*/
-
-/*td.current > div + .element:not(:only-child){*/
-
-/*width: 40% !important;*/
-
-/*}*/
+/*td.current > div + .element:not(:only-child){
+width: 40%;
+}*/
 
 /*td.current > div + .element:only-child {*/
 
-/*width: 80% !important;*/
+/*width: 80%;*/
 
 /*}*/
  .element:not(:only-child) {
@@ -147,4 +142,28 @@ table#history > thead > tr > th:nth-child(5), table#history > tbody > tr > td:nt
 }
 .history-comment-edit > textarea {
     height: 100px;
+}
+a:hover, a:visited, a:active, a:focus {
+    text-decoration:none;
+}
+.course-state-true {
+    cursor: pointer;
+    background-color: #5cb85c;
+}
+.course-state-false {
+    cursor: pointer;
+    background-color: #d9534f;
+}
+.comment-block {
+    display: none;
+}
+.state-checkbox {
+    width:16px;
+    height:16px;
+    vertical-align: top;
+    position: relative;
+    top: 0;
+}
+.comment-btn {
+    font-size: 14px;
 }
