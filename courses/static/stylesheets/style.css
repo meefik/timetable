@@ -1,72 +1,21 @@
-/*table {
-border-spacing: 0px;
-}*/
- table#courses-table>tbody>tr>td {
+#datesForm {
+    padding: 1em 0;
+}
+#courses-table>tbody>tr>td {
     padding: 0;
-    vertical-align: top;
-    border-top: 1px solid #000000;
-    width: 83px;
     text-align: center;
 }
-span.label {
-    width: 100%;
-}
-table#courses-table>thead>tr>th {
+#courses-table>thead>tr>th {
     text-align: center;
-    margin: 1px;
-    padding: 1px;
-    width: 83px;
-    height: 40px;
 }
-.header-th {
-    vertical-align: middle;
-}
-table#courses-table {
+#courses-table {
     overflow-x: scroll;
 }
-table#courses-table>thead>tr>th:nth-child(odd) {
+#courses-table>thead>tr>th:nth-child(odd) {
     vertical-align: top;
-}
-.header-id {
-    width: 65px;
-    text-align: center;
-    padding-left: 2px;
-}
-.header-name {
-    text-align: center;
-    padding: 0 10px;
-}
-.header-id > span, .header-name > span:nth-child(1) {
-    padding-left: 3px;
-    padding-right: 3px;
-}
-.header-name > span:nth-child(2) {
-    padding-right: 3px;
-}
-.row {
-    margin-left: 0px;
-}
-.row {
-    margin-right: 0px;
 }
 span.glyphicon {
     font-size: 12px;
-}
-.week-button {
-    cursor: pointer;
-}
-.week-warning {
-    color: #ff0000;
-}
-#data {
-    width: 100%;
-}
-#datesForm {
-    /*width: 200px;*/
-    padding: 1em 1em;
-}
-.element {
-    text-align: center;
 }
 td.current > .element:only-child {
     width: 80%;
@@ -78,25 +27,14 @@ td.current > .element:not(:only-child) {
 td.current > .element:not(:only-child):first-child {
     margin-left: 10%;
 }
-/*.element: {
-}*/
-
-/*td.current > div + .element:not(:only-child){
-width: 40%;
-}*/
-
-/*td.current > div + .element:only-child {*/
-
-/*width: 80%;*/
-
-/*}*/
- .element:not(:only-child) {
+.element:not(:only-child) {
     width: 50%;
     float: left;
 }
 .week {
     background-color: #337ab7;
     color: #fff;
+    cursor: pointer;
 }
 .enrollment {
     background-color: #5bc0de;
@@ -113,38 +51,11 @@ width: 40%;
 .current {
     background-color: #aaa;
 }
-#tb-history {
-    display: block;
-    height: 200px;
-    overflow: auto;
-    width: 100%;
-}
-table#history, table#history > thead > tr {
-    display: block;
-}
-table#history > thead > tr > th:nth-child(1), table#history > tbody > tr > td:nth-child(1) {
-    width: 100px;
-}
-table#history > thead > tr > th:nth-child(2), table#history > tbody > tr > td:nth-child(2) {
-    width: 130px;
-}
-table#history > thead > tr > th:nth-child(3), table#history > tbody > tr > td:nth-child(3) {
-    width: 130px;
-}
-table#history > thead > tr > th:nth-child(4), table#history > tbody > tr > td:nth-child(4), .history-comment-edit > textarea {
-    width: 145px;
-}
-table#history > thead > tr > th:nth-child(5), table#history > tbody > tr > td:nth-child(5) {
-    width: 40px;
-}
-.history-comment-edit {
-    display: none;
-}
-.history-comment-edit > textarea {
-    height: 100px;
-}
-a:hover, a:visited, a:active, a:focus {
-    text-decoration:none;
+a:hover,
+a:visited,
+a:active,
+a:focus {
+    text-decoration: none;
 }
 .course-state-true {
     cursor: pointer;
@@ -158,12 +69,47 @@ a:hover, a:visited, a:active, a:focus {
     display: none;
 }
 .state-checkbox {
-    width:16px;
-    height:16px;
+    width: 16px;
+    height: 16px;
     vertical-align: top;
     position: relative;
     top: 0;
 }
-.comment-btn {
+.comment-btn,
+.create-btn {
     font-size: 14px;
+}
+.text-nowrap {
+    white-space: nowrap;
+}
+.input-task,
+.input-comment {
+    height: 26px;
+    padding: 2px 4px;
+}
+.tasks-table,
+.history-table {
+    margin-bottom: 5px;
+}
+.tasks-table tbody,
+.tasks-table thead,
+.history-table tbody,
+.history-table thead {
+    display: block;
+}
+.tasks-table tbody,
+.history-table tbody {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 212px;
+}
+.weeks-checkbox {
+    width: 12px;
+    height: 12px;
+    vertical-align: top;
+    position: relative;
+    top: -1px;
+}
+.weeks-text {
+    font-size: 12px;
 }

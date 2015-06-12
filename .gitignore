@@ -1,6 +1,6 @@
 # Bower
 bower_components
 # Database
-schedule.sqlite3
+db.sqlite3
 # Data
 courses/static/data

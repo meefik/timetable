@@ -8,6 +8,7 @@ class Course(models.Model):
     courseStart = models.DateField()
     durationWeeks = models.IntegerField()
     courseState = models.BooleanField(default=False)
+    #note = models.TextField(blank=True)
     def __unicode__(self):
         return self.id
 

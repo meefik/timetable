@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -18,163 +19,154 @@
 </head>
 
 <body>
-    <div class="row">
-        <div class="col-md-12">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
 
-            <form id="datesForm" class="form-inline">
-                <div class="input-daterange input-group" id="datepicker">
-                    <span class="input-group-addon">Дата от</span>
-                    <input type="text" class="input-sm form-control" name="start" id="from" placeholder="dd.mm.yyyy">
-                    <span class="input-group-addon"> до </span>
-                    <input type="text" class="input-sm form-control" name="end" id="to" placeholder="dd.mm.yyyy">
-                </div>
-                <button onclick="getCoursesData();return false;" class="btn btn-default">Показать</button>
-            </form>
+                <form id="datesForm" class="form-inline">
+                    <div class="input-daterange input-group" id="datepicker">
+                        <span class="input-group-addon">Дата от</span>
+                        <input type="text" class="input-sm form-control" name="start" id="from" placeholder="dd.mm.yyyy">
+                        <span class="input-group-addon"> до </span>
+                        <input type="text" class="input-sm form-control" name="end" id="to" placeholder="dd.mm.yyyy">
+                    </div>
+                    <button onclick="getCourses();return false;" class="btn btn-default">Показать</button>
+                </form>
 
-            <div id="data"></div>
+                <div id="courses-block"></div>
 
-            <div class="modal" id="modal-window">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="hideModal()"><span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title" id="modal-title"></h4>
-                        </div>
-                        <div class="modal-body" id="modal-body">
-                            <div id="modal-body-body">
-
+                <div class="modal" id="modal-window">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="hideTasks()"><span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="modal-title"></h4>
                             </div>
-                            <div id="modal-history">
-
+                            <div class="modal-body" id="modal-body">
+                                <div id="modal-task-body"></div>
+                                <div id="modal-task-history"></div>
                             </div>
-                            <div id="modal-body-head">
-
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-
                         </div>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
-            </div>
-            <!-- /.modal -->
 
+            </div>
         </div>
     </div>
 
-<!-- Templates -->
-        <script type="text/template" id="table-main">
-            <table class="table table-condensed table-bordered" id="courses-table">
-                <thead>
+    <!-- Templates -->
+    <script type="text/template" id="courses-tpl">
+        <table class="table table-condensed table-bordered display" id="courses-table">
+            <thead>
                 <tr>
                     <th>ID</th>
                     <th>Название</th>
-                    {{ _.each(headers, function(oneDate) { }}
-                    <th class="header-week {{ if (oneDate.current){ }} current {{ } }}"
-                        title="{{- oneDate.year }} {{ if (oneDate.current){ }} , текущая неделя {{ } }}">{{- oneDate.date }}
+                    {{ _.each(headers, function(d) { }}
+                    <th class="header-week {{ if (d.current){ }}current{{ } }}" title="{{- d.year }}{{ if (d.current){ }}, текущая неделя{{ } }}">{{- d.date }}
                     </th>
                     {{ }); }}
                 </tr>
-                </thead>
-                <tbody>
-                {{ _.each(courses, function(course) { }}
+            </thead>
+            <tbody>
+                {{ _.each(courses, function(item) { }}
                 <tr>
-                    <td class="header-id {{ if(course.State) { }}course-state-true{{ } else { }}course-state-false {{ } }}" onclick="showModalCourse('{{- course.ID }}')"><span>{{- course.ID }}</span></td>
-                    <td class="header-name" title="{{- course.Name }}"><span>{{- course.ShortName }}</span>
-                    {{ _.each(course.Weeks, function(week){ }}
-                    <td {{if (week.current){ }} class="current" {{ } }}>
-                        {{ if (week.enrollment) { }}
-                        <div class="element enrollment" title="Регистрация">&nbsp;<span class='glyphicon glyphicon-plus'></span>&nbsp;</div>
-                        {{ } }}
-
-                        {{ if (week.weekNumber) { }}
-                        <div class="element week" title="Неделя {{- week.weekNumber }}">{{- week.weekNumber }}</div>
-                        {{ } }}
-
-                        {{ if (week.prolongation) { }}
-                        <div class="element prolongation" title="Продление">&nbsp;<span class='glyphicon glyphicon-repeat'></span>&nbsp;</div>
-                        {{ } }}
-
-                        {{ if (week.open) { }}
-                        <div class="element open" title="Открытие в воскресенье">&nbsp;<span class='glyphicon glyphicon-folder-open'></span>&nbsp;</div>
-                        {{ } }}
-
-                        {{ if (week.certificate) { }}
-                        <div class="element certificate" title="Выдача сертификатов">&nbsp;<span class='glyphicon glyphicon-file'></span>&nbsp;</div>
-                        {{ } }}
+                    <td class="header-id {{ if (item.state) { }}course-state-true{{ } else { }}course-state-false{{ } }}" onclick="showTasks('{{- item.id }}')"><span>{{- item.id }}</span>
                     </td>
-                    {{ }); }}
+                    <td class="header-name text-nowrap" title="{{- item.name }}"><span>{{- item.shortName }}</span> {{ _.each(item.weeks, function(week){ }}
+                        <td {{if (week.current){ }} class="current" {{ } }}>
+                            {{ if (week.enrollment) { }}
+                            <div class="element enrollment" title="Регистрация">&nbsp;<span class='glyphicon glyphicon-plus'></span>&nbsp;</div>
+                            {{ } }} {{ if (week.weekNumber) { }}
+                            <div class="element week" title="{{- week.weekNumber }}-ая неделя" onclick="showTasks('{{- item.id }}',{{- week.weekNumber }})">{{- week.weekNumber }}</div>
+                            {{ } }} {{ if (week.prolongation) { }}
+                            <div class="element prolongation" title="Продление">&nbsp;<span class='glyphicon glyphicon-repeat'></span>&nbsp;</div>
+                            {{ } }} {{ if (week.open) { }}
+                            <div class="element open" title="Открытие в воскресенье">&nbsp;<span class='glyphicon glyphicon-folder-open'></span>&nbsp;</div>
+                            {{ } }} {{ if (week.certificate) { }}
+                            <div class="element certificate" title="Выдача сертификатов">&nbsp;<span class='glyphicon glyphicon-file'></span>&nbsp;</div>
+                            {{ } }}
+                        </td>
+                        {{ }); }}
                 </tr>
                 {{ }); }}
-                </tbody>
-            </table>
-        </script>
+            </tbody>
+        </table>
+    </script>
 
-        <script type="text/template" id="checkitem-main">
-            <input type="hidden" id="currentCourse" value="{{- courseId}}">
-            <table class="table">
-                <thead>
+    <script type="text/template" id="tasks-tpl">
+        <table class="table tasks-table">
+            <thead>
                 <tr>
-                    <th>Задача</th>
-                    <th>Состояние</th>
-                    <th></th>
+                    <th width="260">Задача</th>
+                    <th width="145">Состояние</th>
+                    <th width="145"></th>
                 </tr>
-                </thead>
-                <tbody>
-                {{ _.each(checkitems, function(item) { }}
+            </thead>
+            <tbody>
+                {{ _.each(tasks, function(item) { }}
                 <tr>
-                    <td><a href="javascript:void(0);" onclick="showCheckItemHistory(this, {{- item.pk}})">{{= item.fields.taskName}}</a></td>
-                    <td width="150"><input class="state-checkbox" type="checkbox" onchange="doTaskUpdate(this, {{- item.pk}})"
-                        {{ if (item.fields.taskState){ }} checked="checked" > <span class="state-text">выполнено</span> {{ } else { }} 
-                         > <span class="state-text">не выполнено</span>
-                        {{ } }}
+                    <td width="260"><a href="javascript:void(0);" onclick="showHistory(this, {{- item.pk }})">{{= item.fields.taskName }}</a>
                     </td>
-                    <td width="150">
-                        <button class="btn btn-default btn-xs comment-btn" style="width:125px" onclick="doTaskUpdate(this,{{- item.pk}})">
+                    <td width="145" class="text-nowrap">
+                        <input class="state-checkbox" type="checkbox" onchange="updateTask(this, {{- item.pk }})" {{ if (item.fields.taskState){ }} checked="checked"> <span class="state-text">выполнено</span>{{ } else { }} > <span class="state-text">не выполнено</span>{{ } }}
+                    </td>
+                    <td width="145">
+                        <button class="btn btn-default btn-xs comment-btn" style="width:125px" onclick="updateTask(this,{{- item.pk }},{{- weekNumber }})">
                             <span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Комментарий
                         </button>
                     </td>
                 </tr>
                 <tr class="comment-block">
-                    <td colspan="3"><textarea class="form-control" rows="3"></textarea></td>
-                </tr>
-                {{ }); }}
-                </tbody>
-            </table>
-        </script>
-
-        <script type="text/template" id="checkitem-history-table">
-            <input type="hidden" id="currentCheckItem" value="{{- checkItemId}}">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Состояние</th>
-                    <th>Пользователь</th>
-                    <th>Дата</th>
-                    <th>Комментарий</th>
-                </tr>
-                </thead>
-                <tbody>
-                {{ _.each(checkitemHistorys, function(item) { }}
-                <tr>
-                    <td>
-                    {{ if(item.fields.state) { }} 
-                        <span class="glyphicon glyphicon-ok">&nbsp;</span>выполнено
-                    {{ } else { }}
-                        <span class="glyphicon glyphicon-remove">&nbsp;</span>не выполнено
-                    {{ } }}
+                    <td colspan="3">
+                        <textarea class="form-control input-comment" rows="3" placeholder="Текст комментария..."></textarea>
                     </td>
-                    <td>{{- item.fields.userId }}</td>
-                    <td>{{- new Date(item.fields.timeStamp).toString('dd.MM.yyyy HH:mm') }}</td>
-                    <td>{{- item.fields.comment }}</td>
                 </tr>
                 {{ }); }}
-                </tbody>
-            </table>
-        </script>
+            </tbody>
+        </table>
+        <div style="display:inline-block;clear:both;">
+            <div style="float:left;width:410px;padding:0.3em">
+                <input class="form-control input-task" type="text" placeholder="Название задачи...">
+                {{ if(weekNumber) { }}
+                <div class="weeks-text"><input type="checkbox" class="weeks-checkbox"> для всех недель курса</div>
+                {{ } }}
+            </div>
+            <div style="float:right;width:145px;padding:0.3em">
+                <button class="btn btn-default btn-xs create-btn" style="width:125px" onclick="createTask(this,'{{- courseId }}',{{- weekNumber }})">
+                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Добавить
+                </button>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/template" id="history-tpl">
+        <input type="hidden" value="{{- taskId }}">
+        <table class="table history-table">
+            <thead>
+                <tr>
+                    <th width="145">Состояние</th>
+                    <th width="135">Пользователь</th>
+                    <th width="145">Дата</th>
+                    <th width="125">Комментарий</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ _.each(histories, function(item) { }}
+                <tr>
+                    <td width="145" class="text-nowrap">
+                        {{ if(item.fields.state) { }}
+                        <span class="glyphicon glyphicon-ok">&nbsp;</span>выполнено {{ } else { }}
+                        <span class="glyphicon glyphicon-remove">&nbsp;</span>не выполнено {{ } }}
+                    </td>
+                    <td width="135">{{- item.fields.userId }}</td>
+                    <td width="145" class="text-nowrap">{{- new Date(item.fields.timeStamp).toString('dd.MM.yyyy HH:mm') }}</td>
+                    <td width="125">{{- item.fields.comment }}</td>
+                </tr>
+                {{ }); }}
+            </tbody>
+        </table>
+    </script>
 
 </body>
 
