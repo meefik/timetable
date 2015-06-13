@@ -60,10 +60,16 @@ a:focus {
 .course-state-true {
     cursor: pointer;
     background-color: #5cb85c;
+    /*#aaccaa;*/
+    
+    color: white;
 }
 .course-state-false {
     cursor: pointer;
     background-color: #d9534f;
+    /*#ccaaaa;*/
+    
+    color: white;
 }
 .comment-block {
     display: none;
@@ -79,26 +85,33 @@ a:focus {
 .create-btn {
     font-size: 14px;
 }
+.create-btn {
+    width: 125px;
+}
 .text-nowrap {
     white-space: nowrap;
 }
-.input-task,
+.input-text,
 .input-comment {
     height: 26px;
     padding: 2px 4px;
 }
 .tasks-table,
-.history-table {
+.history-table,
+.notes-table {
     margin-bottom: 5px;
 }
 .tasks-table tbody,
 .tasks-table thead,
 .history-table tbody,
-.history-table thead {
+.history-table thead,
+.notes-table tbody,
+.notes-table thead {
     display: block;
 }
 .tasks-table tbody,
-.history-table tbody {
+.history-table tbody,
+.notes-table tbody {
     overflow-y: auto;
     overflow-x: hidden;
     height: 212px;
@@ -112,4 +125,26 @@ a:focus {
 }
 .weeks-text {
     font-size: 12px;
+    display: none;
+}
+.header-id,
+.header-name {
+    cursor: pointer;
+}
+.task-create {
+    display: inline-block;
+    clear: both;
+}
+.task-create-input {
+    float: left;
+    width: 410px;
+    padding: 0.3em;
+}
+.task-create-button {
+    float: right;
+    width: 145px;
+    padding: 0.3em;
+}
+.note-remove {
+    cursor: pointer;
 }

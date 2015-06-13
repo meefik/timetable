@@ -30,22 +30,60 @@
                         <span class="input-group-addon"> до </span>
                         <input type="text" class="input-sm form-control" name="end" id="to" placeholder="dd.mm.yyyy">
                     </div>
-                    <button onclick="getCourses();return false;" class="btn btn-default">Показать</button>
+                    <button onclick="showCourses();return false;" class="btn btn-default">Показать</button>
                 </form>
 
                 <div id="courses-block"></div>
 
-                <div class="modal" id="modal-window">
+                <!-- Модальное окно списка задач курса -->
+                <div class="modal" id="modal-tasks">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="hideTasks()"><span aria-hidden="true">&times;</span>
                                 </button>
-                                <h4 class="modal-title" id="modal-title"></h4>
+                                <h4 class="modal-title"></h4>
                             </div>
-                            <div class="modal-body" id="modal-body">
-                                <div id="modal-task-body"></div>
-                                <div id="modal-task-history"></div>
+                            <div class="modal-body">
+                                <div class="task-body"></div>
+                                <div class="task-create">
+                                    <div class="task-create-input">
+                                        <input class="form-control input-text" type="text" placeholder="Название задачи...">
+                                        <div class="weeks-text"><input type="checkbox" class="weeks-checkbox"> для всех недель курса</div>
+                                    </div>
+                                    <div class="task-create-button">
+                                        <button class="btn btn-default btn-xs create-btn">
+                                            <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Добавить
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="task-history"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Модальное окно списка заметок курса -->
+                <div class="modal" id="modal-notes">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="hideNotes()"><span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title"></h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="note-body"></div>
+                                <div class="task-create">
+                                    <div class="task-create-input">
+                                        <input class="form-control input-text" type="text" placeholder="Текст заметки...">
+                                    </div>
+                                    <div class="task-create-button">
+                                        <button class="btn btn-default btn-xs create-btn">
+                                            <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Добавить
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -71,9 +109,9 @@
             <tbody>
                 {{ _.each(courses, function(item) { }}
                 <tr>
-                    <td class="header-id {{ if (item.state) { }}course-state-true{{ } else { }}course-state-false{{ } }}" onclick="showTasks('{{- item.id }}')"><span>{{- item.id }}</span>
+                    <td class="header-id text-nowrap {{ if (item.state === true) { }}course-state-true{{ } if (item.state === false) { }}course-state-false{{ } }}" onclick="showTasks('{{- item.id }}',-1)"><span>{{- item.id }}</span>
                     </td>
-                    <td class="header-name text-nowrap" title="{{- item.name }}"><span>{{- item.shortName }}</span> {{ _.each(item.weeks, function(week){ }}
+                    <td class="header-name text-nowrap" title="{{- item.name }}" onclick="showNotes('{{- item.id }}')"><span>{{- item.shortName }}</span> {{ _.each(item.weeks, function(week){ }}
                         <td {{if (week.current){ }} class="current" {{ } }}>
                             {{ if (week.enrollment) { }}
                             <div class="element enrollment" title="Регистрация">&nbsp;<span class='glyphicon glyphicon-plus'></span>&nbsp;</div>
@@ -106,13 +144,13 @@
             <tbody>
                 {{ _.each(tasks, function(item) { }}
                 <tr>
-                    <td width="260"><a href="javascript:void(0);" onclick="showHistory(this, {{- item.pk }})">{{= item.fields.taskName }}</a>
+                    <td width="260"><a href="javascript:void(0);" onclick="showHistory(this,{{- item.pk }})">{{= item.fields.taskName }}</a>
                     </td>
                     <td width="145" class="text-nowrap">
-                        <input class="state-checkbox" type="checkbox" onchange="updateTask(this,'{{- courseId }}', {{- item.pk }})" {{ if (item.fields.taskState){ }} checked="checked"> <span class="state-text">выполнено</span>{{ } else { }} > <span class="state-text">не выполнено</span>{{ } }}
+                        <input class="state-checkbox" type="checkbox" onchange="updateTask(this,'{{- courseId }}',{{- item.pk }})" {{ if (item.fields.taskState){ }} checked="checked"> <span class="state-text">выполнено</span>{{ } else { }} > <span class="state-text">не выполнено</span>{{ } }}
                     </td>
                     <td width="145">
-                        <button class="btn btn-default btn-xs comment-btn" style="width:125px" onclick="updateTask(this, '{{- courseId }}', {{- item.pk }}, {{- weekNumber }})">
+                        <button class="btn btn-default btn-xs comment-btn" style="width:125px" onclick="updateTask(this,'{{- courseId }}',{{- item.pk }},{{- weekNumber }})">
                             <span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Комментарий
                         </button>
                     </td>
@@ -125,28 +163,14 @@
                 {{ }); }}
             </tbody>
         </table>
-        <div style="display:inline-block;clear:both;">
-            <div style="float:left;width:410px;padding:0.3em">
-                <input class="form-control input-task" type="text" placeholder="Название задачи...">
-                {{ if(weekNumber) { }}
-                <div class="weeks-text"><input type="checkbox" class="weeks-checkbox"> для всех недель курса</div>
-                {{ } }}
-            </div>
-            <div style="float:right;width:145px;padding:0.3em">
-                <button class="btn btn-default btn-xs create-btn" style="width:125px" onclick="createTask(this, '{{- courseId }}', {{- weekNumber }})">
-                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Добавить
-                </button>
-            </div>
-        </div>
     </script>
 
     <script type="text/template" id="history-tpl">
-        <input type="hidden" value="{{- taskId }}">
         <table class="table history-table">
             <thead>
                 <tr>
                     <th width="145">Состояние</th>
-                    <th width="135">Пользователь</th>
+                    <th width="135">Автор</th>
                     <th width="145">Дата</th>
                     <th width="125">Комментарий</th>
                 </tr>
@@ -159,9 +183,32 @@
                         <span class="glyphicon glyphicon-ok">&nbsp;</span>выполнено {{ } else { }}
                         <span class="glyphicon glyphicon-remove">&nbsp;</span>не выполнено {{ } }}
                     </td>
-                    <td width="135">{{- item.fields.userId }}</td>
+                    <td width="135" class="text-nowrap">{{- item.fields.username }}</td>
                     <td width="145" class="text-nowrap">{{- new Date(item.fields.timeStamp).toString('dd.MM.yyyy HH:mm') }}</td>
                     <td width="125">{{- item.fields.comment }}</td>
+                </tr>
+                {{ }); }}
+            </tbody>
+        </table>
+    </script>
+
+    <script type="text/template" id="notes-tpl">
+        <table class="table table-hover notes-table">
+            <thead>
+                <tr>
+                    <th width="135">Автор</th>
+                    <th width="145">Дата</th>
+                    <th width="230">Комментарий</th>
+                    <th width="40"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ _.each(notes, function(item) { }}
+                <tr>
+                    <td width="135" class="text-nowrap">{{- item.fields.username }}</td>
+                    <td width="145" class="text-nowrap">{{- new Date(item.fields.timeStamp).toString('dd.MM.yyyy HH:mm') }}</td>
+                    <td width="230" class="text-nowrap">{{- item.fields.comment }}</td>
+                    <td width="40" class="note-remove" title="Удалить заметку" onclick="removeNote(this,{{- item.pk }})"><span class="glyphicon glyphicon-remove"></span></td>
                 </tr>
                 {{ }); }}
             </tbody>
