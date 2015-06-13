@@ -27,33 +27,43 @@ def task_create(request):
     task_name = request.GET.get('taskname')
     week = request.GET.get('week')
     week_number = None if None else int(week)
-    if course_id == None:
-        return HttpResponse(status=400)    
-    if task_name == None:
-        return HttpResponse(status=400)
-    course = Course.objects.get(id=course_id)
-    if week_number == None:
-        Task.objects.create(courseId=course,taskName=task_name)
-    if week_number > 0:
-        Task.objects.create(courseId=course,taskName=task_name,weekNumber=week_number)
-    if week_number == 0:
-        for w in range(1,course.durationWeeks+1):
-            Task.objects.create(courseId=course,taskName=task_name,weekNumber=w)
+    if course_id != None and task_name != None:
+        course = Course.objects.get(id=course_id)
+        if week_number == None:
+            Task.objects.create(courseId=course,taskName=task_name)
+        if week_number > 0:
+            Task.objects.create(courseId=course,taskName=task_name,weekNumber=week_number)
+        if week_number == 0:
+            for w in range(1,course.durationWeeks+1):
+                Task.objects.create(courseId=course,taskName=task_name,weekNumber=w)
+        # Update course state
+        course = Course.objects.get(id=course_id)
+        course.courseState = False
+        course.save()
+        return HttpResponse(status=200)
     return HttpResponse(status=200)
 
 def task_update(request):
+    course_id = request.GET.get('courseid')
     task_id = request.GET.get('taskid')
-    if task_id != None:
+    if course_id != None and task_id != None:
         task_state = request.GET.get('state') == '1' if True else False
         task_comment = request.GET.get('comment')
         if task_comment == None:
             task_comment = ''
         try:
+            # Update task state
             task = Task.objects.get(id=task_id)
             task.taskState = task_state
             task.save()
+            # Add history item
             user = User.objects.get(id=1)
             TaskHistory.objects.create(taskId=task,userId=user,state=task_state,comment=task_comment)
+            # Update course state
+            course_state = Task.objects.filter(courseId=course_id,taskState=False).count() == 0 if True else False
+            course = Course.objects.get(id=course_id)
+            course.courseState = course_state
+            course.save()
         except Exception as e:
             print '%s (%s)' % (e.message, type(e))
         return HttpResponse(status=200)

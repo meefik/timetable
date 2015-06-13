@@ -109,10 +109,10 @@
                     <td width="260"><a href="javascript:void(0);" onclick="showHistory(this, {{- item.pk }})">{{= item.fields.taskName }}</a>
                     </td>
                     <td width="145" class="text-nowrap">
-                        <input class="state-checkbox" type="checkbox" onchange="updateTask(this, {{- item.pk }})" {{ if (item.fields.taskState){ }} checked="checked"> <span class="state-text">выполнено</span>{{ } else { }} > <span class="state-text">не выполнено</span>{{ } }}
+                        <input class="state-checkbox" type="checkbox" onchange="updateTask(this,'{{- courseId }}', {{- item.pk }})" {{ if (item.fields.taskState){ }} checked="checked"> <span class="state-text">выполнено</span>{{ } else { }} > <span class="state-text">не выполнено</span>{{ } }}
                     </td>
                     <td width="145">
-                        <button class="btn btn-default btn-xs comment-btn" style="width:125px" onclick="updateTask(this,{{- item.pk }},{{- weekNumber }})">
+                        <button class="btn btn-default btn-xs comment-btn" style="width:125px" onclick="updateTask(this, '{{- courseId }}', {{- item.pk }}, {{- weekNumber }})">
                             <span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Комментарий
                         </button>
                     </td>
@@ -133,7 +133,7 @@
                 {{ } }}
             </div>
             <div style="float:right;width:145px;padding:0.3em">
-                <button class="btn btn-default btn-xs create-btn" style="width:125px" onclick="createTask(this,'{{- courseId }}',{{- weekNumber }})">
+                <button class="btn btn-default btn-xs create-btn" style="width:125px" onclick="createTask(this, '{{- courseId }}', {{- weekNumber }})">
                     <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Добавить
                 </button>
             </div>

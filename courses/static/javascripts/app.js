@@ -37,7 +37,7 @@ function hideTasks() {
 }
 
 // Обновить задачу
-function updateTask(obj, taskId, weekNumber) {
+function updateTask(obj, courseId, taskId, weekNumber) {
 
     function indicateAction(jq, color) {
         var c = jq.css('backgroundColor');
@@ -61,6 +61,7 @@ function updateTask(obj, taskId, weekNumber) {
         $.ajax({
             url: 'api/task/update',
             data: {
+                courseid: courseId,
                 taskid: taskId,
                 week: weekNumber,
                 state: checked
@@ -95,6 +96,7 @@ function updateTask(obj, taskId, weekNumber) {
             $.ajax({
                 url: 'api/task/update',
                 data: {
+                    courseid: courseId,
                     taskid: taskId,
                     week: weekNumber,
                     state: checked,
