@@ -140,10 +140,29 @@ function showCourses() {
         $("#courses-block").html(_.template($("#courses-tpl").text())(result));
     }
 
+    function datatable() {
+        var oTable = $('#courses-table').DataTable({
+            paging: false,
+            info: false,
+            columnDefs: [{
+                orderable: false,
+                searchable: false,
+                targets: 'header-week'
+            }],
+            language: {
+                emptyTable: "Данные отсутствуют в таблице",
+                zeroRecords: "Не найдено ни одной записи",
+                search: "Поиск:"
+            }
+        });
+        oTable
+    }
+
     //var url = 'static/data/list.json';
     var url = 'course/list';
     $.getJSON(url).done(function(data) {
         show(data);
+        datatable();
     });
 }
 
@@ -153,7 +172,8 @@ function showTasks(courseId, weekNumber) {
     if (weekNumber > 0) {
         modal.find('.modal-title').html("Задачи курса " + courseId + " на " + weekNumber + " неделю");
         modal.find('.weeks-text').show();
-    } else {
+    }
+    else {
         modal.find('.modal-title').html("Задачи курса " + courseId);
         modal.find('.weeks-text').hide();
     }
@@ -191,7 +211,7 @@ function drawTasks(courseId, weekNumber, callback) {
         var modal = $('#modal-tasks');
         modal.find('.task-body').html(_.template($('#tasks-tpl').text())(result));
         if (callback) callback();
-    });    
+    });
 }
 
 // Обновить задачу
@@ -435,14 +455,14 @@ $(document).ready(function() {
         todayHighlight: true,
         calendarWeeks: true
     });
-    
+
     var modal_tasks = $('#modal-tasks');
     modal_tasks.find('.input-text').keyup(function(e) {
         if (e.keyCode == 13) {
             modal_tasks.find('.create-btn').trigger('click');
         }
     });
-    
+
     var modal_notes = $('#modal-notes');
     modal_notes.find('.input-text').keyup(function(e) {
         if (e.keyCode == 13) {

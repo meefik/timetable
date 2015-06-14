@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css">
     <link rel="stylesheet" href="static/stylesheets/style.css">
     <script src="static/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="static/bower_components/jquery-color/jquery.color.js"></script>
@@ -14,6 +15,8 @@
     <script src="static/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.ru.min.js"></script>
     <script src="static/bower_components/underscore/underscore-min.js"></script>
     <script src="static/bower_components/datejs/build/production/date-ru-RU.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
     <script src="static/javascripts/app.js"></script>
     <title>Расписание курсов</title>
 </head>
@@ -95,7 +98,7 @@
 
     <!-- Templates -->
     <script type="text/template" id="courses-tpl">
-        <table class="table table-condensed table-bordered display" id="courses-table">
+        <table class="table table-striped table-bordered display" id="courses-table">
             <thead>
                 <tr>
                     <th>ID</th>
