@@ -13,6 +13,8 @@
     "underscore": "~1.8.3",
     "datejs": "~1.0.0-rc3",
     "bootstrap-datepicker": "~1.4.0",
-    "jquery-color": "~2.1.2"
+    "jquery-color": "~2.1.2",
+    "datatables": "~1.10.7",
+    "datatables-plugins": "~1.10.7"
   }
 }

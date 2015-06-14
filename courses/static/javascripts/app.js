@@ -140,29 +140,28 @@ function showCourses() {
         $("#courses-block").html(_.template($("#courses-tpl").text())(result));
     }
 
-    function datatable() {
-        var oTable = $('#courses-table').DataTable({
+    function drawTable() {
+        var table =  $('#courses-table').DataTable({
             paging: false,
             info: false,
+            //filter: false,
+            scrollX: true,
             columnDefs: [{
                 orderable: false,
                 searchable: false,
                 targets: 'header-week'
             }],
             language: {
-                emptyTable: "Данные отсутствуют в таблице",
-                zeroRecords: "Не найдено ни одной записи",
-                search: "Поиск:"
+                zeroRecords: "Не найдено ни одной записи"
             }
         });
-        oTable
     }
 
     //var url = 'static/data/list.json';
     var url = 'course/list';
     $.getJSON(url).done(function(data) {
         show(data);
-        datatable();
+        drawTable();
     });
 }
 
@@ -455,7 +454,7 @@ $(document).ready(function() {
         todayHighlight: true,
         calendarWeeks: true
     });
-
+    
     var modal_tasks = $('#modal-tasks');
     modal_tasks.find('.input-text').keyup(function(e) {
         if (e.keyCode == 13) {
@@ -469,10 +468,20 @@ $(document).ready(function() {
             modal_notes.find('.create-btn').trigger('click');
         }
     });
+    
+    var search = $('#dates-form .search');
+    search.keyup(function(e) {
+        if (e.keyCode != 13) {
+            var text = $(this).val();
+            $('#courses-table').DataTable().search(text).draw();
+        }
+    });
 
     _.templateSettings = {
         evaluate: /\{\{(.+?)\}\}/g,
         interpolate: /\{\{=(.+?)\}\}/g,
         escape: /\{\{-(.+?)\}\}/g
     };
+    
+    showCourses();
 });

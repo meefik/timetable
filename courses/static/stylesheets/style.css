@@ -1,4 +1,4 @@
-#datesForm {
+#dates-form {
     padding: 1em 0;
 }
 #courses-table>tbody>tr>td {
@@ -147,4 +147,13 @@ a:focus {
 }
 .note-remove {
     cursor: pointer;
+}
+.search {
+    float: right;
+}
+.dataTables_filter {
+    display: none;
+}
+#courses-table th {
+    min-width: 80px;
 }

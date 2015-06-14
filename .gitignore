@@ -2,5 +2,3 @@
 bower_components
 # Database
 db.sqlite3
-# Data
-courses/static/data
