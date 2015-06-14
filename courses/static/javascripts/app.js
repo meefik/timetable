@@ -1,3 +1,31 @@
+// Server API
+var urls = {
+    // Получить список курсов
+    // Параметры: без параметров
+    course_list: "course/list",
+    // Получить список задач курса
+    // Параметры: courseid - идентификатор курса; week - номер недели (week>0 - задачи для указанной недели курса, week=-1 - задачи курса)
+    task_list: "task/list",
+    // Обновить задачу курса
+    // Параметры:  courseid - идентификатор курса; taskid - идентификатор редактируемой задачи; state - состояние (0 - не выполнено, 1 - выполнено); comment - комментарий к задаче
+    task_update: "task/update",
+    // Создать новую задачу курса
+    // Параметры: courseid - идентификатор курса; week - номер недели (week>0 - задача для указанной недели курса, week=-1 - задача курса, week=0 - задача для каждой недели курса); taskname - название задачи
+    task_create: "task/create",
+    // Получить истурию изменений задачи курса
+    // Параметры: taskid - идентификатор задачи для которой выдать историю изменений
+    history_list: "history/list",
+    // Получить список заметок курса
+    // Параметры: courseid - идентификатор курса
+    note_list: "note/list",
+    // Создать новую заметку курса
+    // Параметры: courseid - идентификатор курса; comment - текст заметки
+    note_create: "note/create",
+    // Удалить заметку курса
+    // Параметры: noteid - идентификатор заметки
+    note_remove: "note/remove"
+};
+
 // Отобразить список курсов
 function showCourses() {
 
@@ -141,7 +169,7 @@ function showCourses() {
     }
 
     function drawTable() {
-        var table =  $('#courses-table').DataTable({
+        var table = $('#courses-table').DataTable({
             paging: false,
             info: false,
             //filter: false,
@@ -157,8 +185,7 @@ function showCourses() {
         });
     }
 
-    var url = 'course/list';
-    $.getJSON(url).done(function(data) {
+    $.getJSON(urls.course_list).done(function(data) {
         show(data);
         drawTable();
     });
@@ -194,7 +221,7 @@ function hideTasks() {
 // Получить и отрисовать список задач
 function drawTasks(courseId, weekNumber, callback) {
     $.ajax({
-        url: 'task/list',
+        url: urls.task_list,
         data: {
             courseid: courseId,
             week: weekNumber
@@ -235,7 +262,7 @@ function updateTask(obj, courseId, taskId, weekNumber) {
         var text = obj.next('.state-text');
         // update task state
         $.ajax({
-            url: 'task/update',
+            url: urls.task_update,
             data: {
                 courseid: courseId,
                 taskid: taskId,
@@ -270,7 +297,7 @@ function updateTask(obj, courseId, taskId, weekNumber) {
             var checked = checkbox.is(':checked') ? 1 : 0;
             // update task comment
             $.ajax({
-                url: 'task/update',
+                url: urls.task_update,
                 data: {
                     courseid: courseId,
                     taskid: taskId,
@@ -304,7 +331,7 @@ function createTask(courseId, weekNumber) {
     if (text) {
         var isAllWeeks = modal.find('.weeks-checkbox').is(':checked');
         $.ajax({
-            url: 'task/create',
+            url: urls.task_create,
             data: {
                 courseid: courseId,
                 week: isAllWeeks ? 0 : weekNumber,
@@ -330,7 +357,7 @@ function showHistory(obj, taskId) {
         $(obj).parent().parent().addClass("active");
     }
     $.ajax({
-        url: 'history/list',
+        url: urls.history_list,
         data: {
             taskid: taskId
         },
@@ -367,7 +394,7 @@ function hideNotes() {
 // Получить и отрисовать список заметок
 function drawNotes(courseId, callback) {
     $.ajax({
-        url: 'note/list',
+        url: urls.note_list,
         data: {
             courseid: courseId
         },
@@ -391,7 +418,7 @@ function createNote(courseId) {
     if (text) {
         var isAllWeeks = modal.find('.weeks-checkbox').is(':checked');
         $.ajax({
-            url: 'note/create',
+            url: urls.note_create,
             data: {
                 courseid: courseId,
                 comment: text
@@ -409,7 +436,7 @@ function createNote(courseId) {
 // Удалить заметку
 function removeNote(obj, noteId) {
     $.ajax({
-        url: 'note/remove',
+        url: urls.note_remove,
         data: {
             noteid: noteId
         },
@@ -453,7 +480,7 @@ $(document).ready(function() {
         todayHighlight: true,
         calendarWeeks: true
     });
-    
+
     var modal_tasks = $('#modal-tasks');
     modal_tasks.find('.input-text').keyup(function(e) {
         if (e.keyCode == 13) {
@@ -467,7 +494,7 @@ $(document).ready(function() {
             modal_notes.find('.create-btn').trigger('click');
         }
     });
-    
+
     var search = $('#dates-form .search');
     search.keyup(function(e) {
         if (e.keyCode != 13) {
@@ -481,6 +508,6 @@ $(document).ready(function() {
         interpolate: /\{\{=(.+?)\}\}/g,
         escape: /\{\{-(.+?)\}\}/g
     };
-    
+
     showCourses();
 });
