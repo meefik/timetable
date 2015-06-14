@@ -1,9 +1,13 @@
 Timetable
 =========
 
-## Starting from the Terminal
+Licensed under the [GPL version 3](http://www.gnu.org/licenses/) or later.
 
-In case you want to run your Django application from the terminal just run:
+The application for planning and development online courses (e.g. edX Platform).
+
+## Starting from terminal
+
+In case you want to run the application from terminal just run:
 
 1) Install requirements
 
@@ -13,6 +17,15 @@ In case you want to run your Django application from the terminal just run:
 
     $ python manage.py syncdb
 
-3) Run Django
+3) Import database
+
+    $ cat db.sql | sqlite3 db.sqlite3
+
+4) Install bower components
+
+    $ cd courses/static
+    $ bower install
+
+5) Run Django
 
     $ python manage.py runserver $IP:$PORT
