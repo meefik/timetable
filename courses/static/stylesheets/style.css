@@ -57,14 +57,16 @@ a:active,
 a:focus {
     text-decoration: none;
 }
-.course-state-true {
+.course-state-true,
+.week-state-true {
     cursor: pointer;
     background-color: #5cb85c;
     /*#aaccaa;*/
     
     color: white;
 }
-.course-state-false {
+.course-state-false,
+.week-state-false {
     cursor: pointer;
     background-color: #d9534f;
     /*#ccaaaa;*/

@@ -112,22 +112,22 @@ function showCourses() {
         var head = getHead(from, to);
         var courses = new Array();
         for (var i = 0; i < cdata.length; i++) {
-            var courseRaw = cdata[i].fields;
-            courseRaw.id = cdata[i].pk;
-            courseRaw.shortName = courseRaw.shortName;
-            courseRaw.enrollmentStart = Date.parseExact(courseRaw.enrollmentStart, "yyyy-MM-dd");
-            courseRaw.courseStart = Date.parseExact(courseRaw.courseStart, "yyyy-MM-dd");
-            //courseRaw.state = 1;
-            if (!isCourseInAction(courseRaw, from, to)) {
+            var course = cdata[i];
+            course.id = cdata[i].courseId;
+            course.shortName = course.shortName;
+            course.enrollmentStart = Date.parseExact(course.enrollmentStart, "yyyy-MM-dd");
+            course.courseStart = Date.parseExact(course.courseStart, "yyyy-MM-dd");
+            if (!isCourseInAction(course, from, to)) {
                 var weeks = [];
                 for (var j = 0; j < head.length; j++) {
-                    weeks.push(getCourseEvent(courseRaw, Date.parseExact(head[j].monday, "dd.MM.yyyy")));
+                    weeks.push(getCourseEvent(course, Date.parseExact(head[j].monday, "dd.MM.yyyy")));
                 }
                 var course = {
-                    id: courseRaw.id,
-                    name: courseRaw.courseName,
-                    shortName: courseRaw.shortName,
-                    state: courseRaw.courseState,
+                    id: course.id,
+                    name: course.courseName,
+                    shortName: course.shortName,
+                    state: course.courseState,
+                    weeksState: course.weeksState,
                     weeks: weeks
                 };
                 courses.push(course);
@@ -157,7 +157,6 @@ function showCourses() {
         });
     }
 
-    //var url = 'static/data/list.json';
     var url = 'course/list';
     $.getJSON(url).done(function(data) {
         show(data);

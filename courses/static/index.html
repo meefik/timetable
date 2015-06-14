@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" type="text/css" href="static/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="static/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css">
     <link rel="stylesheet" href="static/stylesheets/style.css">
     <script src="static/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="static/bower_components/jquery-color/jquery.color.js"></script>
@@ -120,7 +120,7 @@
                             {{ if (week.enrollment) { }}
                             <div class="element enrollment" title="Регистрация">&nbsp;<span class='glyphicon glyphicon-plus'></span>&nbsp;</div>
                             {{ } }} {{ if (week.weekNumber) { }}
-                            <div class="element week" title="{{- week.weekNumber }}-ая неделя" onclick="showTasks('{{- item.id }}',{{- week.weekNumber }})">{{- week.weekNumber }}</div>
+                            <div class="element week {{ if(item.weeksState[week.weekNumber-1] == true) { }}week-state-true{{ } if(item.weeksState[week.weekNumber-1] == false) { }}week-state-false{{ } }}" title="{{- week.weekNumber }}-ая неделя" onclick="showTasks('{{- item.id }}',{{- week.weekNumber }})">{{- week.weekNumber }}</div>
                             {{ } }} {{ if (week.prolongation) { }}
                             <div class="element prolongation" title="Продление">&nbsp;<span class='glyphicon glyphicon-repeat'></span>&nbsp;</div>
                             {{ } }} {{ if (week.open) { }}
