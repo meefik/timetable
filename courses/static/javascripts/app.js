@@ -216,6 +216,7 @@ function hideTasks() {
     modal.find('.task-history').html("");
     modal.find('.create-btn').off('click');
     modal.hide();
+    showCourses();
 }
 
 // Получить и отрисовать список задач

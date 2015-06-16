@@ -7,6 +7,8 @@ class Course(models.Model):
     enrollmentStart = models.DateField()
     courseStart = models.DateField()
     durationWeeks = models.IntegerField()
+    def  __unicode__(self):
+        return self.id
 
 class Note(models.Model):
     id = models.AutoField(primary_key=True)
@@ -21,6 +23,8 @@ class Task(models.Model):
     taskName = models.CharField(max_length=255)
     weekNumber = models.IntegerField(default=-1)
     taskState = models.BooleanField(default=False)
+    def  __unicode__(self):
+        return self.taskName
 
 class TaskHistory(models.Model):
     id = models.AutoField(primary_key=True)
