@@ -211,7 +211,7 @@
                 <tr>
                     <td width="135" class="text-nowrap">{{- item.fields.username }}</td>
                     <td width="145" class="text-nowrap">{{- new Date(item.fields.timeStamp).toString('dd.MM.yyyy HH:mm') }}</td>
-                    <td width="230" class="text-nowrap">{{- item.fields.comment }}</td>
+                    <td width="230">{{- item.fields.comment }}</td>
                     <td width="40" class="note-remove" title="Удалить заметку" onclick="removeNote(this,{{- item.pk }})"><span class="glyphicon glyphicon-remove"></span></td>
                 </tr>
                 {{ }); }}
