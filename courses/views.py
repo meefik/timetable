@@ -39,7 +39,7 @@ def course_list(request):
     return HttpResponse(response,mimetype='application/json; charset=utf8')
 
 def task_list(request):
-    course_id = request.GET.get('cour  seid')
+    course_id = request.GET.get('courseid')
     week = request.GET.get('week')
     if course_id != None and week != None:
         week_number = int(week)
@@ -106,7 +106,6 @@ def note_list(request):
 def note_create(request):
     course_id = request.GET.get('courseid')
     note_comment = request.GET.get('comment')
-    course_name = request.GET.get('coursename')
     if course_id != None and note_comment != None:
         course = Course.objects.get(id=course_id)
         user = 'admin' # username from edX
