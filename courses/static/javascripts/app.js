@@ -374,9 +374,10 @@ function showHistory(obj, taskId) {
 }
 
 // Отобразить окно заметок курса
-function showNotes(courseId) {
+function showNotes(courseId, courseName) {
     var modal = $('#modal-notes');
     modal.find('.modal-title').html("Заметки курса " + courseId);
+    modal.find('.modal-course-name').html(courseName);
     modal.find('.create-btn').on('click', function() {
         createNote(courseId);
     });
@@ -393,7 +394,7 @@ function hideNotes() {
 }
 
 // Получить и отрисовать список заметок
-function drawNotes(courseId, callback) {
+function drawNotes(courseId, courseName, callback) {
     $.ajax({
         url: urls.note_list,
         data: {
