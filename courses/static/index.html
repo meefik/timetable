@@ -113,9 +113,9 @@
             <tbody>
                 {{ _.each(courses, function(item) { }}
                 <tr>
-                    <td class="header-id text-nowrap {{ if (item.state === true) { }}course-state-true{{ } if (item.state === false) { }}course-state-false{{ } }}" onclick="showTasks('{{- item.id }}',-1)"><span>{{- item.id }}</span>
+                    <td class="header-id text-nowrap {{ if (item.state === true) { }}course-state-true{{ } if (item.state === false) { }}course-state-false{{ } }}" onclick="showTasks('{{- item.id }}',-1)"><div class="course-id"><span>{{- item.id }}</span></div>
                     </td>
-                    <td class="header-name text-nowrap" title="{{- item.name }}" onclick="showNotes('{{- item.id }}')"><span>{{- item.shortName }}</span> {{ _.each(item.weeks, function(week){ }}
+                    <td class="header-name text-nowrap" title="{{- item.name }}" onclick="showNotes('{{- item.id }}')"><div class="course-name"><span>{{- item.shortName }}</span></div> {{ _.each(item.weeks, function(week){ }}
                         <td {{if (week.current){ }} class="current" {{ } }}>
                             {{ if (week.enrollment) { }}
                             <div class="element enrollment" title="Регистрация">&nbsp;<span class='glyphicon glyphicon-plus'></span>&nbsp;</div>

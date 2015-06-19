@@ -31,6 +31,9 @@ td.current > .element:not(:only-child):first-child {
     width: 50%;
     float: left;
 }
+.element {
+    padding: 5px;
+}
 .week {
     background-color: #337ab7;
     color: #fff;
@@ -61,16 +64,12 @@ a:focus {
 .week-state-true {
     cursor: pointer;
     background-color: #5cb85c;
-    /*#aaccaa;*/
-    
     color: white;
 }
 .course-state-false,
 .week-state-false {
     cursor: pointer;
     background-color: #d9534f;
-    /*#ccaaaa;*/
-    
     color: white;
 }
 .comment-block {
@@ -132,6 +131,10 @@ a:focus {
 .header-id,
 .header-name {
     cursor: pointer;
+}
+.course-id,
+.course-name {
+    padding: 5px;
 }
 .task-create {
     display: inline-block;
