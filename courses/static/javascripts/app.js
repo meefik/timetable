@@ -394,7 +394,7 @@ function hideNotes() {
 }
 
 // Получить и отрисовать список заметок
-function drawNotes(courseId, courseName, callback) {
+function drawNotes(courseId, callback) {
     $.ajax({
         url: urls.note_list,
         data: {
