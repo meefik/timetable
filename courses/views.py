@@ -36,12 +36,10 @@ def course_list(request):
             data["weeksState"].append(task_state)
         obj_arr.append(data);
     response = dumps(obj_arr,ensure_ascii=False,indent=2,default=date_handler)
-    #json_serializer = serializers.get_serializer('json')()
-    #response = json_serializer.serialize(courses_list,ensure_ascii=False,indent=2,use_natural_keys=True)
     return HttpResponse(response,mimetype='application/json; charset=utf8')
 
 def task_list(request):
-    course_id = request.GET.get('courseid')
+    course_id = request.GET.get('cour  seid')
     week = request.GET.get('week')
     if course_id != None and week != None:
         week_number = int(week)
@@ -108,6 +106,7 @@ def note_list(request):
 def note_create(request):
     course_id = request.GET.get('courseid')
     note_comment = request.GET.get('comment')
+    course_name = request.GET.get('coursename')
     if course_id != None and note_comment != None:
         course = Course.objects.get(id=course_id)
         user = 'admin' # username from edX

@@ -15,7 +15,7 @@
     vertical-align: top;
 }
 span.glyphicon {
-    font-size: 12px;
+    font-size: 14px;
 }
 td.current > .element:only-child {
     width: 80%;
@@ -31,25 +31,31 @@ td.current > .element:not(:only-child):first-child {
     width: 50%;
     float: left;
 }
+.element {
+    padding: 5px;
+}
 .week {
-    background-color: #337ab7;
-    color: #fff;
+    color: #000;
     cursor: pointer;
 }
 .enrollment {
     background-color: #5bc0de;
 }
 .prolongation {
-    background-color: #5cb85c;
+    background-color: #f1c40f;
 }
 .open {
-    background-color: #d9534f;
+    background-color: #e67e22;
 }
 .certificate {
-    background-color: #f0ad4e;
+    background-color: #a162a1;
 }
 .current {
-    background-color: #aaa;
+    background: #00619e;
+}
+
+th.current, .current .week {
+    color: #fff;
 }
 a:hover,
 a:visited,
@@ -61,16 +67,12 @@ a:focus {
 .week-state-true {
     cursor: pointer;
     background-color: #5cb85c;
-    /*#aaccaa;*/
-    
     color: white;
 }
 .course-state-false,
 .week-state-false {
     cursor: pointer;
     background-color: #d9534f;
-    /*#ccaaaa;*/
-    
     color: white;
 }
 .comment-block {
@@ -133,6 +135,10 @@ a:focus {
 .header-name {
     cursor: pointer;
 }
+.course-id,
+.course-name {
+    padding: 5px;
+}
 .task-create {
     display: inline-block;
     clear: both;
@@ -158,4 +164,11 @@ a:focus {
 }
 #courses-table th {
     min-width: 80px;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td {
+  vertical-align: middle;
 }

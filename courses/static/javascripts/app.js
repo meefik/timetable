@@ -12,7 +12,7 @@ var urls = {
     // Создать новую задачу курса
     // Параметры: courseid - идентификатор курса; week - номер недели (week>0 - задача для указанной недели курса, week=-1 - задача курса, week=0 - задача для каждой недели курса); taskname - название задачи
     task_create: "task/create",
-    // Получить истурию изменений задачи курса
+    // Получить историю изменений задачи курса
     // Параметры: taskid - идентификатор задачи для которой выдать историю изменений
     history_list: "history/list",
     // Получить список заметок курса
@@ -374,7 +374,7 @@ function showHistory(obj, taskId) {
 }
 
 // Отобразить окно заметок курса
-function showNotes(courseId) {
+function showNotes(courseId, courseName) {
     var modal = $('#modal-notes');
     modal.find('.modal-title').html("Заметки курса " + courseId);
     modal.find('.create-btn').on('click', function() {
